@@ -262,6 +262,13 @@
     .cursor, .cursor-ring { display: none; }
     body { cursor: auto; }
   }
+  .ach-reel {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: var(--gold);
+  font-size: 0.75rem;
+  text-decoration: underline;
+}
 </style>
 </head>
 <body>
@@ -423,11 +430,12 @@ const achievements = [
     pills: ['Certificate', 'Event Coverage', '2023']
   },
   {
-    num: '02', icon: '🎬', year: '2024', 
+    num: '02', icon: '🎬', year: '2024',
     tag: 'Event Coverage',
-    title: 'IRTIQA 2024 by QDS',
-    desc: 'Full cinematic coverage for IRTIQA 2024 organised by QDS — one of the flagship institutional events of the year. Delivered a visually compelling documentation that captured every highlight and behind-the-scenes moment.',
-    pills: ['Coverage', 'QDS', '2024']
+    title: 'JARRAH 2024 by QDS',
+    desc: 'Full cinematic coverage for JARRAH 2024 organised by QDS — one of the flagship institutional events of the year. Delivered a visually compelling documentation that captured every highlight and behind-the-scenes moment.',
+    pills: ['Coverage', 'QDS', '2024'] ,
+    reel: 'https://www.instagram.com/reel/C6KArjXKEfz/?igsh=eDdmbHI5bG1qa2Ns'
   },
   {
     num: '03', icon: '🏅', year: 'BTL Season 1',
@@ -500,11 +508,12 @@ achievements.forEach((a, i) => {
   const li = document.createElement('li');
   li.className = 'ach-item reveal' + (i % 3 === 1 ? ' reveal-delay-1' : i % 3 === 2 ? ' reveal-delay-2' : '');
   li.dataset.idx = i;
-  li.innerHTML = `
+li.innerHTML = `
     <span class="ach-num">${a.num}</span>
     <div class="ach-body">
       <span class="ach-title">${a.title}</span>
       <span class="ach-tag">${a.tag}</span>
+      ${a.reel ? `<a href="${a.reel}" target="_blank" rel="noopener noreferrer" class="ach-reel">Watch Reel</a>` : ''}
     </div>
     <span class="ach-arrow">→</span>`;
   li.addEventListener('click', () => openModal(i));
