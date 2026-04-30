@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhammad Abubakar — Filmmaker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #c8a96e;
+    --gold-dim: #8a6f3f;
+    --cream: #f0e8d8;
+    --dark: #080808;
+    --dark2: #111111;
+    --dark3: #1a1a1a;
+    --red-accent: #8b1a1a;
+    --text-muted: #666;
+    --text-dim: #444;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--cream);
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.05s;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(200,169,110,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+  }
+  .cursor-ring.hovered { width: 56px; height: 56px; border-color: var(--gold); }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 8888;
+    opacity: 0.4;
+  }
+
+  /* WELCOME OVERLAY */
+  .welcome-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 8, 8, 0.4);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 1;
+    transition: opacity 0.6s ease 1.5s;
+  }
+  .welcome-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+    backdrop-filter: blur(0px);
+  }
+  .welcome-text {
+    position: relative;
+    z-index: 10001;
+    text-align: center;
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(2rem, 6vw, 4rem);
+    letter-spacing: 0.15em;
+    color: var(--cream);
+    opacity: 1;
+    animation: welcomeUp 1.8s ease-out forwards;
+  }
+  .welcome-text span {
+    color: var(--gold);
+    display: block;
+  }
+  @keyframes welcomeUp {
+    from { transform: translateY(40px); opacity: 0; }
+    50% { opacity: 1; }
+    to { transform: translateY(-100px); opacity: 0; }
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 1.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    mix-blend-mode: normal;
+  }
+  nav::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(8,8,8,0.9), transparent);
+    pointer-events: none;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.4rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-decoration: none;
+    position: relative;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; position: relative; }
+  .nav-links a {
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    transition: opacity 0.3s, color 0.3s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--gold); }
+
+  /* HAMBURGER */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1001;
+    background: none;
+    border: none;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px; height: 1px;
+    background: var(--cream);
+    transition: all 0.3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  /* MOBILE MENU */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(8,8,8,0.97);
+    z-index: 999;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 3rem;
+    letter-spacing: 0.2em;
+    color: var(--cream);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .mobile-menu a:hover { color: var(--gold); }
+
+  /* HERO */
+  #hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* 3D CANVAS */
+  #hero-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.5s forwards;
+  }
+  .hero-name {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(4rem, 12vw, 10rem);
+    line-height: 0.85;
+    letter-spacing: 0.05em;
+    color: var(--cream);
+    opacity: 0;
+    animation: fadeUp 1s 0.7s forwards;
+  }
+  .hero-name span { color: var(--gold); }
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    color: rgba(240,232,216,0.5);
+    margin-top: 1.2rem;
+    letter-spacing: 0.1em;
+    opacity: 0;
+    animation: fadeUp 1s 0.9s forwards;
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 1s 1.5s forwards;
+  }
+  .hero-scroll span {
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--gold-dim), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  /* REEL STRIP */
+  .reel-strip {
+    background: var(--dark2);
+    padding: 2rem 0;
+    overflow: hidden;
+    border-top: 1px solid rgba(200,169,110,0.1);
+    border-bottom: 1px solid rgba(200,169,110,0.1);
+  }
+  .reel-track {
+    display: flex;
+    gap: 3rem;
+    animation: scrollLeft 20s linear infinite;
+    white-space: nowrap;
+  }
+  .reel-item {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 0.9rem;
+    letter-spacing: 0.3em;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .reel-item::after {
+    content: '◆';
+    color: var(--gold);
+    font-size: 0.5rem;
+  }
+
+  /* SECTION BASE */
+  section { position: relative; }
+
+  .section-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  /* ABOUT */
+  #about {
+    padding: 10rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .about-visual {
+    position: relative;
+    aspect-ratio: 3/4;
+  }
+  .about-frame {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(200,169,110,0.2);
+  }
+  .about-frame::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border: 1px solid rgba(200,169,110,0.1);
+    transform: translate(12px, 12px);
+  }
+  .about-3d-scene {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: var(--dark2);
+    transition: filter 0.35s ease;
+  }
+  #about-canvas { width: 100%; height: 100%; }
+  .about-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    z-index: 2;
+    transition: transform 0.35s ease;
+  }
+  .about-3d-scene:hover .about-photo {
+    transform: translateY(-12px);
+  }
+  .about-3d-scene:hover {
+    filter: drop-shadow(0 0 30px rgba(200,169,110,0.4));
+  }
+  #about {
+    padding: 10rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  #about:has(.about-3d-scene:hover) {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+  }
+  .about-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 2rem;
+  }
+  .about-text h2 em { font-style: italic; color: var(--gold); }
+  .about-text p {
+    font-size: 0.8rem;
+    line-height: 2;
+    color: rgba(240,232,216,0.55);
+    margin-bottom: 1.5rem;
+  }
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(200,169,110,0.15);
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2.5rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+  }
+
+  /* WORK */
+  #work {
+    padding: 8rem 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .work-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 4rem;
+  }
+  .work-header h2 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(3rem, 7vw, 6rem);
+    letter-spacing: 0.05em;
+    line-height: 0.9;
+    color: var(--cream);
+  }
+  .work-header h2 span { color: var(--gold); }
+  .view-all {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold-dim);
+    padding-bottom: 0.2rem;
+    transition: color 0.3s;
+    white-space: nowrap;
+  }
+  .view-all:hover { color: var(--cream); }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    gap: 1.5rem;
+  }
+  .work-item {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--dark2);
+  }
+  .work-item:nth-child(1) { grid-column: 1 / 8; grid-row: 1; aspect-ratio: 16/9; }
+  .work-item:nth-child(2) { grid-column: 8 / 13; grid-row: 1; aspect-ratio: 4/5; }
+  .work-item:nth-child(3) { grid-column: 1 / 5; grid-row: 2; aspect-ratio: 4/3; }
+  .work-item:nth-child(4) { grid-column: 5 / 9; grid-row: 2; aspect-ratio: 4/3; }
+  .work-item:nth-child(5) { grid-column: 9 / 13; grid-row: 2; aspect-ratio: 4/3; }
+
+  .work-canvas-bg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+
+  .work-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.3) 50%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+  }
+  .work-item:hover .work-overlay { opacity: 1; }
+  .work-item:hover .work-canvas-bg { transform: scale(1.05); transition: transform 0.6s ease; }
+
+  .work-cat {
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .work-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.2;
+  }
+  .work-year {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+  }
+
+  /* SERVICES */
+  #services {
+    padding: 8rem 4rem;
+    background: var(--dark2);
+    border-top: 1px solid rgba(200,169,110,0.08);
+  }
+  .services-inner { max-width: 1400px; margin: 0 auto; }
+  .services-inner h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 5rem;
+    max-width: 600px;
+    line-height: 1.2;
+  }
+  .services-inner h2 em { font-style: italic; color: var(--gold); }
+
+  .services-list { list-style: none; }
+  .service-item {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    align-items: center;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid rgba(200,169,110,0.1);
+    cursor: pointer;
+    transition: all 0.3s;
+    gap: 2rem;
+  }
+  .service-item:hover { padding-left: 1rem; }
+  .service-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1rem;
+    color: var(--gold-dim);
+    letter-spacing: 0.1em;
+  }
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 2.5vw, 2rem);
+    font-weight: 300;
+    color: var(--cream);
+    transition: color 0.3s;
+  }
+  .service-item:hover .service-name { color: var(--gold); }
+  .service-arrow {
+    font-size: 1.2rem;
+    color: var(--gold-dim);
+    transform: rotate(-45deg);
+    transition: transform 0.3s;
+  }
+  .service-item:hover .service-arrow { transform: rotate(0deg); color: var(--gold); }
+
+  /* MOTIVATION */
+  #motivation {
+    position: relative;
+    padding: 8rem 4rem;
+    background: var(--dark2);
+    border-top: 1px solid rgba(200,169,110,0.08);
+    overflow: hidden;
+  }
+  #motivation-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  #motivation .services-inner {
+    position: relative;
+    z-index: 10;
+  }
+
+  /* SHOWREEL */
+  #showreel, #instagram {
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--dark2);
+  }
+  #reel-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .reel-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+  }
+  .reel-content h2 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(3rem, 10vw, 9rem);
+    letter-spacing: 0.1em;
+    color: var(--cream);
+    line-height: 0.9;
+  }
+  .reel-content h2 span { color: var(--gold); display: block; }
+  .play-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding: 1.2rem 3rem;
+    border: 1px solid rgba(200,169,110,0.4);
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    background: transparent;
+    cursor: pointer;
+  }
+  .play-btn:hover {
+    background: var(--gold);
+    color: var(--dark);
+    border-color: var(--gold);
+  }
+  .play-icon {
+    width: 0; height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 10px solid currentColor;
+  }
+
+  /* TESTIMONIALS */
+  #testimonials {
+    padding: 8rem 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  #testimonials h2 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(2rem, 5vw, 4rem);
+    letter-spacing: 0.08em;
+    color: var(--cream);
+    margin-bottom: 4rem;
+  }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .testimonial-card {
+    padding: 2.5rem;
+    border: 1px solid rgba(200,169,110,0.1);
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .testimonial-card:hover { border-color: rgba(200,169,110,0.3); }
+  .testimonial-card::before {
+    content: '"';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 6rem;
+    color: var(--gold);
+    opacity: 0.15;
+    position: absolute;
+    top: -1rem;
+    left: 1.5rem;
+    line-height: 1;
+  }
+  .testimonial-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    line-height: 1.8;
+    color: rgba(240,232,216,0.75);
+    margin-bottom: 1.5rem;
+  }
+  .testimonial-author {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .testimonial-role {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* CONTACT */
+  #contact {
+    padding: 8rem 4rem;
+    background: var(--dark2);
+    border-top: 1px solid rgba(200,169,110,0.08);
+  }
+  .contact-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8rem;
+    align-items: start;
+  }
+  .contact-left h2 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    letter-spacing: 0.05em;
+    line-height: 0.9;
+    color: var(--cream);
+    margin-bottom: 2rem;
+  }
+  .contact-left h2 span { color: var(--gold); display: block; }
+  .contact-left p {
+    font-size: 0.8rem;
+    line-height: 2;
+    color: rgba(240,232,216,0.5);
+    max-width: 400px;
+  }
+  .contact-details {
+    margin-top: 3rem;
+    display: grid;
+    gap: 0.8rem;
+  }
+  .contact-details p {
+    font-size: 0.85rem;
+    color: rgba(240,232,216,0.75);
+  }
+  .contact-details a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .contact-details a:hover { color: var(--cream); }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .form-group label {
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(200,169,110,0.2);
+    padding: 0.8rem 0;
+    color: var(--cream);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    outline: none;
+    transition: border-color 0.3s;
+    width: 100%;
+    -webkit-appearance: none;
+  }
+  .form-group select {
+    background: var(--dark2);
+    cursor: pointer;
+  }
+  .form-group select option { background: var(--dark2); }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-bottom-color: var(--gold); }
+  .form-group textarea { resize: none; height: 100px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .submit-btn {
+    align-self: flex-start;
+    padding: 1.1rem 3rem;
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .submit-btn:hover { background: var(--cream); }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 4rem;
+    border-top: 1px solid rgba(200,169,110,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.2rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+  }
+  .footer-copy {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollLeft {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    nav { padding: 1.5rem 2rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+
+    #about { grid-template-columns: 1fr; gap: 3rem; padding: 6rem 2rem; }
+    .about-visual { max-width: 400px; margin: 0 auto; aspect-ratio: 4/3; }
+
+    .work-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+    }
+    .work-item:nth-child(1) { grid-column: 1 / 3; grid-row: 1; }
+    .work-item:nth-child(2) { grid-column: 1 / 2; grid-row: 2; aspect-ratio: 4/3; }
+    .work-item:nth-child(3) { grid-column: 2 / 3; grid-row: 2; aspect-ratio: 4/3; }
+    .work-item:nth-child(4) { grid-column: 1 / 2; grid-row: 3; aspect-ratio: 4/3; }
+    .work-item:nth-child(5) { grid-column: 2 / 3; grid-row: 3; aspect-ratio: 4/3; }
+
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .contact-inner { grid-template-columns: 1fr; gap: 4rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+
+    #work, #services .services-inner, #testimonials { padding: 6rem 2rem; }
+    #services { padding: 6rem 2rem; }
+    #contact { padding: 6rem 2rem; }
+  }
+
+  @media (max-width: 600px) {
+    .about-stats { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .work-grid {
+      grid-template-columns: 1fr;
+    }
+    .work-item:nth-child(1),
+    .work-item:nth-child(2),
+    .work-item:nth-child(3),
+    .work-item:nth-child(4),
+    .work-item:nth-child(5) {
+      grid-column: 1;
+      grid-row: auto;
+      aspect-ratio: 16/9;
+    }
+    footer { padding: 2rem; }
+    .contact-socials { flex-wrap: wrap; }
+    .cursor, .cursor-ring { display: none; }
+    body { cursor: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="welcome-overlay" id="welcomeOverlay">
+  <div class="welcome-text">
+    Welcome to<br><span>Abubakar's Portfolio</span>
+  </div>
+</div>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">M·A</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#coverages">Coverages</a></li>
+    <li><a href="#motivation">Motivation</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" class="mobile-link">About</a>
+  <a href="#coverages" class="mobile-link">Coverages</a>
+  <a href="#motivation" class="mobile-link">Motivation</a>
+  <a href="#contact" class="mobile-link">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Filmmaker &amp; Cinematographer</p>
+    <h1 class="hero-name">Muhammad<br><span>Abubakar</span></h1>
+    <p class="hero-sub">Crafting stories through light &amp; motion</p>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- REEL STRIP -->
+<div class="reel-strip">
+  <div class="reel-track" id="reelTrack">
+    <span class="reel-item">Documentary Reels</span>
+    <span class="reel-item">Short Films</span>
+    <span class="reel-item">Brand Stories</span>
+    <span class="reel-item">Event Coverage</span>
+    <span class="reel-item">Post Production</span>
+    <span class="reel-item">Documentary reels</span>
+    <span class="reel-item">Short Films</span>
+    <span class="reel-item">Brand Stories</span>
+    <span class="reel-item">Event Coverage</span>
+    <span class="reel-item">Post Production</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual reveal">
+    <div class="about-frame">
+      <div class="about-3d-scene">
+        <img src="profile.jpeg" alt="Muhammad Abubakar" class="about-photo reveal">
+        <canvas id="about-canvas"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="about-text">
+    <p class="section-label reveal">About Me</p>
+    <h2 class="reveal">Vision through<br>the <em>lens</em> of<br>emotion</h2>
+    <p class="reveal reveal-delay-1">Muhammad Abubakar is a filmmaker and visual storyteller who believes every frame is a painting and every cut a heartbeat. With a deep passion for cinematic language, he transforms raw moments into enduring narratives.</p>
+    <p class="reveal reveal-delay-2">From documentary-style portraits to large-scale commercial productions, his work spans continents and genres — always anchored in authentic human experience.</p>
+    <div class="about-stats reveal reveal-delay-3">
+      <div>
+        <div class="stat-num">7+</div>
+        <div class="stat-label">Years in Film</div>
+      </div>
+      <div>
+        <div class="stat-num">120+</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div>
+        <div class="stat-num">14</div>
+        <div class="stat-label">Countries</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COVERAGES -->
+<section id="coverages">
+  <div class="services-inner">
+    <p class="section-label reveal">Coverages & Achievements</p>
+    <h2 class="reveal">Notable coverage, certifications,<br>and leadership milestones</h2>
+    <ul class="services-list">
+      <li class="service-item reveal">
+        <span class="service-num">01</span>
+        <span class="service-name">Sports Week 2023 certificate</span>
+      </li>
+      <li class="service-item reveal reveal-delay-1">
+        <span class="service-num">02</span>
+        <span class="service-name">Irtiqa 2024 by QDS</span>
+      </li>
+      <li class="service-item reveal reveal-delay-1">
+        <span class="service-num">03</span>
+        <span class="service-name">BTL season 1 Best Ambassador award</span>
+      </li>
+      <li class="service-item reveal reveal-delay-2">
+        <span class="service-num">04</span>
+        <span class="service-name">Elance Phantoms coverage</span>
+      </li>
+      <li class="service-item reveal reveal-delay-2">
+        <span class="service-num">05</span>
+        <span class="service-name">IRTIQA by UACS X UMC</span>
+      </li>
+      <li class="service-item reveal reveal-delay-3">
+        <span class="service-num">06</span>
+        <span class="service-name">2x Best Videographer of the Year award holder 2023‑2024 & 2024‑2025</span>
+      </li>
+      <li class="service-item reveal reveal-delay-3">
+        <span class="service-num">07</span>
+        <span class="service-name">BTL season 2 reel production</span>
+      </li>
+      <li class="service-item reveal reveal-delay-3">
+        <span class="service-num">08</span>
+        <span class="service-name">2025 Cabinet intro reels</span>
+      </li>
+      <li class="service-item reveal reveal-delay-3">
+        <span class="service-num">09</span>
+        <span class="service-name">2025 induction reel</span>
+      </li>
+      <li class="service-item reveal reveal-delay-3">
+        <span class="service-num">10</span>
+        <span class="service-name">2025 Convocation Day 1 coverage and reel production</span>
+      </li>
+      <li class="service-item reveal reveal-delay-3">
+        <span class="service-num">11</span>
+        <span class="service-name">From 2025, serving as Director for the videography group, mentoring students and producing high-quality visual content</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section id="instagram">
+  <div class="reel-content">
+    <h2 class="reveal">Follow my<br><span>Instagram</span></h2>
+    <a href="https://www.instagram.com/__.abubkr?igsh=czMxbmw5YXpwN3c0" target="_blank" rel="noopener" class="play-btn reveal">
+      <span class="play-icon"></span>
+      <span>Visit Account</span>
+    </a>
+  </div>
+</section>
+
+<!-- MOTIVATION -->
+<section id="motivation">
+  <canvas id="motivation-canvas"></canvas>
+  <div class="services-inner">
+    <p class="section-label reveal">Motivation</p>
+    <h2 class="reveal">Why I want to become a member</h2>
+    <p class="reveal reveal-delay-1">With three years of experience as a videographer, I have built a strong foundation in shooting and editing engaging visual stories. I learned to craft reels that feel modern and dynamic while focusing on powerful storytelling rather than heavy drone work.</p>
+    <p class="reveal reveal-delay-2">In 2025–2026, I led a team and coordinated creative projects from concept to final delivery, making sure every production was polished and effective. This leadership experience motivated me to join UMC and contribute as a committed member.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-left reveal">
+      <h2>Contact<br><span>Here</span></h2>
+      <div class="contact-details">
+        <p>Email: <a href="mailto:abubakarme160@gmail.com">abubakarme160@gmail.com</a></p>
+        <p>Phone: +92 318 6672959</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">M·A</div>
+  <div class="footer-copy">© 2024 Muhammad Abubakar. All rights reserved.</div>
+  <div class="footer-copy" style="color: var(--gold-dim);">Lahore, Pakistan</div>
+</footer>
+
+<!-- THREE.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursorRing');
+let cx = 0, cy = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  cx = e.clientX; cy = e.clientY;
+  cursor.style.left = cx + 'px';
+  cursor.style.top = cy + 'px';
+});
+
+function animateCursor() {
+  rx += (cx - rx) * 0.12;
+  ry += (cy - ry) * 0.12;
+  cursorRing.style.left = rx + 'px';
+  cursorRing.style.top = ry + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+// WELCOME OVERLAY
+const welcomeOverlay = document.getElementById('welcomeOverlay');
+if (welcomeOverlay) {
+  setTimeout(() => {
+    welcomeOverlay.classList.add('fade-out');
+    setTimeout(() => {
+      welcomeOverlay.style.display = 'none';
+    }, 500);
+  }, 2000);
+}
+
+document.querySelectorAll('a, button, .work-item, .service-item').forEach(el => {
+  el.addEventListener('mouseenter', () => cursorRing.classList.add('hovered'));
+  el.addEventListener('mouseleave', () => cursorRing.classList.remove('hovered'));
+});
+
+// MOBILE MENU
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+document.querySelectorAll('.mobile-link').forEach(l => {
+  l.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  });
+});
+
+// SCROLL REVEAL
+const revealEls = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+revealEls.forEach(el => obs.observe(el));
+
+// FORM
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.submit-btn');
+  btn.textContent = 'Message Sent ✓';
+  btn.style.background = '#2a5a2a';
+  btn.style.color = '#aaffaa';
+  setTimeout(() => {
+    btn.textContent = 'Send Message';
+    btn.style.background = '';
+    btn.style.color = '';
+    e.target.reset();
+  }, 3000);
+}
+
+// ==================
+// THREE.JS SCENES
+// ==================
+
+// HERO SCENE — Cinematic particle field + floating film frames
+(function() {
+  const canvas = document.getElementById('hero-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setClearColor(0x000000, 1);
+
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x000000, 0.018);
+
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
+  camera.position.set(0, 0, 30);
+
+  // Stars
+  const starGeo = new THREE.BufferGeometry();
+  const starCount = 3000;
+  const starPos = new Float32Array(starCount * 3);
+  for (let i = 0; i < starCount * 3; i++) {
+    starPos[i] = (Math.random() - 0.5) * 200;
+  }
+  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+  const starMat = new THREE.PointsMaterial({ color: 0xc8a96e, size: 0.08, transparent: true, opacity: 0.6 });
+  scene.add(new THREE.Points(starGeo, starMat));
+
+  // Film frame objects
+  const frames = [];
+  const frameMat = new THREE.MeshBasicMaterial({ color: 0xc8a96e, wireframe: true });
+  for (let i = 0; i < 12; i++) {
+    const geo = new THREE.BoxGeometry(3.2, 2, 0.05);
+    const mesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({
+      color: 0x1a1a1a,
+      transparent: true,
+      opacity: 0.4
+    }));
+    const wire = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: 0xc8a96e, wireframe: true, transparent: true, opacity: 0.15 }));
+    const group = new THREE.Group();
+    group.add(mesh);
+    group.add(wire);
+    group.position.set(
+      (Math.random() - 0.5) * 40,
+      (Math.random() - 0.5) * 25,
+      (Math.random() - 0.5) * 20 - 5
+    );
+    group.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+    scene.add(group);
+    frames.push({ mesh: group, vx: (Math.random() - 0.5) * 0.003, vy: (Math.random() - 0.5) * 0.002, vr: (Math.random() - 0.5) * 0.003 });
+  }
+
+  // Lens flare circles
+  const rings = [];
+  for (let i = 0; i < 4; i++) {
+    const ring = new THREE.Mesh(
+      new THREE.RingGeometry(2 + i * 1.5, 2.1 + i * 1.5, 64),
+      new THREE.MeshBasicMaterial({ color: 0xc8a96e, transparent: true, opacity: 0.04 - i * 0.005, side: THREE.DoubleSide })
+    );
+    ring.position.z = -5;
+    scene.add(ring);
+    rings.push(ring);
+  }
+
+  let mouseX = 0, mouseY = 0;
+  document.addEventListener('mousemove', e => {
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+
+  let t = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    t += 0.005;
+    frames.forEach(f => {
+      f.mesh.position.x += f.vx;
+      f.mesh.position.y += f.vy;
+      f.mesh.rotation.y += f.vr;
+      f.mesh.rotation.z += f.vr * 0.5;
+      if (Math.abs(f.mesh.position.x) > 25) f.vx *= -1;
+      if (Math.abs(f.mesh.position.y) > 15) f.vy *= -1;
+    });
+    rings.forEach((r, i) => {
+      r.rotation.z += 0.001 * (i % 2 === 0 ? 1 : -1);
+      r.scale.setScalar(1 + Math.sin(t + i) * 0.05);
+    });
+    camera.position.x += (mouseX * 3 - camera.position.x) * 0.02;
+    camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
+    camera.lookAt(scene.position);
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+})();
+
+// ABOUT SCENE — Rotating camera/lens metaphor
+(function() {
+  const canvas = document.getElementById('about-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const w = canvas.offsetWidth || 400;
+  const h = canvas.offsetHeight || 500;
+  renderer.setSize(w, h);
+  renderer.setClearColor(0x111111, 1);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
+  camera.position.set(0, 0, 8);
+
+  const gold = 0xc8a96e;
+  const dark = 0x1a1008;
+
+  // Lens barrel
+  const barrel = new THREE.Group();
+  for (let i = 0; i < 6; i++) {
+    const ring = new THREE.Mesh(
+      new THREE.TorusGeometry(1.5 + i * 0.08, 0.04, 16, 64),
+      new THREE.MeshBasicMaterial({ color: i % 2 === 0 ? gold : 0x333333, transparent: true, opacity: 0.7 })
+    );
+    ring.position.z = -i * 0.3;
+    barrel.add(ring);
+  }
+
+  // Aperture blades
+  const blades = new THREE.Group();
+  for (let i = 0; i < 8; i++) {
+    const blade = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.6, 1.4),
+      new THREE.MeshBasicMaterial({ color: 0x222222, side: THREE.DoubleSide, transparent: true, opacity: 0.8 })
+    );
+    blade.rotation.z = (i / 8) * Math.PI * 2;
+    blade.position.set(Math.cos((i / 8) * Math.PI * 2) * 0.5, Math.sin((i / 8) * Math.PI * 2) * 0.5, 0);
+    blades.add(blade);
+  }
+
+  // Center glass
+  const glass = new THREE.Mesh(
+    new THREE.CircleGeometry(0.9, 64),
+    new THREE.MeshBasicMaterial({ color: 0x0a0f1a, transparent: true, opacity: 0.9 })
+  );
+
+  // Reflection shimmer
+  const shimmer = new THREE.Mesh(
+    new THREE.CircleGeometry(0.3, 32),
+    new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.05 })
+  );
+  shimmer.position.set(-0.3, 0.2, 0.01);
+
+  barrel.add(blades);
+  barrel.add(glass);
+  barrel.add(shimmer);
+  scene.add(barrel);
+
+  // Particles around lens
+  const pGeo = new THREE.BufferGeometry();
+  const pCount = 300;
+  const pPos = new Float32Array(pCount * 3);
+  for (let i = 0; i < pCount; i++) {
+    const a = Math.random() * Math.PI * 2;
+    const r = 2.5 + Math.random() * 3;
+    pPos[i * 3] = Math.cos(a) * r;
+    pPos[i * 3 + 1] = Math.sin(a) * r;
+    pPos[i * 3 + 2] = (Math.random() - 0.5) * 2;
+  }
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+  scene.add(new THREE.Points(pGeo, new THREE.PointsMaterial({ color: gold, size: 0.05, transparent: true, opacity: 0.5 })));
+
+  let t = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    t += 0.008;
+    barrel.rotation.z = t * 0.2;
+    blades.rotation.z = Math.sin(t) * 0.3;
+    shimmer.material.opacity = 0.03 + Math.sin(t * 2) * 0.03;
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+
+// WORK ITEM SCENES
+(function() {
+  const palettes = [
+    [0x8b1a1a, 0xc8a96e, 0x2a1505],   // desert reds
+    [0x0a1a2a, 0x1a3a5a, 0xc8a96e],   // deep blue
+    [0x1a0a2a, 0x5a1a8a, 0xc8a96e],   // purple night
+    [0x0a1a0a, 0x1a3a1a, 0x8ab46e],   // forest green
+    [0x2a1a0a, 0x5a3a1a, 0xc8a96e],   // warm amber
+  ];
+
+  document.querySelectorAll('.work-canvas-bg').forEach((canvas, idx) => {
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
+    renderer.setPixelRatio(1);
+    renderer.setClearColor(0x080808, 1);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+    camera.position.z = 5;
+
+    const pal = palettes[idx % palettes.length];
+
+    // Abstract planes
+    for (let i = 0; i < 5; i++) {
+      const mesh = new THREE.Mesh(
+        new THREE.PlaneGeometry(3 + Math.random() * 4, 3 + Math.random() * 4),
+        new THREE.MeshBasicMaterial({
+          color: pal[i % pal.length],
+          transparent: true,
+          opacity: 0.12 + Math.random() * 0.15,
+          side: THREE.DoubleSide
+        })
+      );
+      mesh.position.set((Math.random() - 0.5) * 4, (Math.random() - 0.5) * 4, -i * 0.5);
+      mesh.rotation.z = Math.random() * 0.3;
+      scene.add(mesh);
+    }
+
+    // Grid lines
+    const lineMat = new THREE.LineBasicMaterial({ color: pal[1], transparent: true, opacity: 0.1 });
+    for (let i = -5; i <= 5; i++) {
+      const hGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-5, i, -2), new THREE.Vector3(5, i, -2)]);
+      const vGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(i, -5, -2), new THREE.Vector3(i, 5, -2)]);
+      scene.add(new THREE.Line(hGeo, lineMat));
+      scene.add(new THREE.Line(vGeo, lineMat));
+    }
+
+    // Floating particles
+    const pGeo = new THREE.BufferGeometry();
+    const pPos = new Float32Array(200 * 3);
+    for (let i = 0; i < 200; i++) {
+      pPos[i * 3] = (Math.random() - 0.5) * 10;
+      pPos[i * 3 + 1] = (Math.random() - 0.5) * 10;
+      pPos[i * 3 + 2] = (Math.random() - 0.5) * 3;
+    }
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+    scene.add(new THREE.Points(pGeo, new THREE.PointsMaterial({ color: pal[1], size: 0.04, transparent: true, opacity: 0.6 })));
+
+    function resize() {
+      const w = canvas.offsetWidth || 400;
+      const h = canvas.offsetHeight || 300;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    let t = idx * 1.3;
+    function animate() {
+      requestAnimationFrame(animate);
+      t += 0.003;
+      scene.children.forEach((c, i) => {
+        if (c.isMesh) { c.rotation.z = Math.sin(t + i) * 0.05; }
+      });
+      camera.position.x = Math.sin(t * 0.3) * 0.5;
+      camera.position.y = Math.cos(t * 0.2) * 0.3;
+      camera.lookAt(scene.position);
+      renderer.render(scene, camera);
+    }
+    animate();
+  });
+})();
+
+// SHOWREEL SCENE — Dramatic volumetric light rays
+(function() {
+  const canvas = document.getElementById('reel-canvas');
+  if (!canvas) return;
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setClearColor(0x000000, 1);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 200);
+  camera.position.z = 20;
+
+  // Light beams
+  for (let i = 0; i < 8; i++) {
+    const angle = (i / 8) * Math.PI * 2;
+    const geo = new THREE.CylinderGeometry(0.02, 2.5, 40, 8, 1, true);
+    const mat = new THREE.MeshBasicMaterial({
+      color: i % 2 === 0 ? 0xc8a96e : 0x8b1a1a,
+      transparent: true,
+      opacity: 0.04,
+      side: THREE.DoubleSide
+    });
+    const beam = new THREE.Mesh(geo, mat);
+    beam.position.set(Math.cos(angle) * 3, Math.sin(angle) * 3, -10);
+    beam.rotation.z = angle;
+    scene.add(beam);
+  }
+
+  // Dust particles
+  const dustGeo = new THREE.BufferGeometry();
+  const dustCount = 2000;
+  const dustPos = new Float32Array(dustCount * 3);
+  for (let i = 0; i < dustCount * 3; i++) dustPos[i] = (Math.random() - 0.5) * 60;
+  dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+  scene.add(new THREE.Points(dustGeo, new THREE.PointsMaterial({
+    color: 0xc8a96e, size: 0.07, transparent: true, opacity: 0.3
+  })));
+
+  // Center orb
+  const orb = new THREE.Mesh(
+    new THREE.SphereGeometry(1.5, 32, 32),
+    new THREE.MeshBasicMaterial({ color: 0xc8a96e, transparent: true, opacity: 0.06, wireframe: true })
+  );
+  scene.add(orb);
+
+  let t = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    t += 0.004;
+    scene.children.forEach((c, i) => {
+      if (c.isMesh && c !== orb) c.rotation.z = t * 0.1 * (i % 2 === 0 ? 1 : -1);
+    });
+    orb.rotation.y = t * 0.3;
+    orb.rotation.x = t * 0.2;
+    orb.scale.setScalar(1 + Math.sin(t) * 0.1);
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+})();
+
+// MOTIVATION SCENE — Flowing particles with subtle geometry
+(function() {
+  const canvas = document.getElementById('motivation-canvas');
+  if (!canvas) return;
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setClearColor(0x000000, 0);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+  camera.position.z = 15;
+
+  // Floating particles
+  const pGeo = new THREE.BufferGeometry();
+  const pCount = 1500;
+  const pPos = new Float32Array(pCount * 3);
+  for (let i = 0; i < pCount * 3; i++) {
+    pPos[i] = (Math.random() - 0.5) * 40;
+  }
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+  const particles = new THREE.Points(pGeo, new THREE.PointsMaterial({
+    color: 0xc8a96e, size: 0.06, transparent: true, opacity: 0.4
+  }));
+  scene.add(particles);
+
+  // Subtle connecting lines
+  const lineGeo = new THREE.BufferGeometry();
+  const linePts = [];
+  for (let i = 0; i < 20; i++) {
+    linePts.push(new THREE.Vector3((Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30, (Math.random() - 0.5) * 10));
+  }
+  lineGeo.setFromPoints(linePts);
+  const lines = new THREE.Line(lineGeo, new THREE.LineBasicMaterial({ color: 0xc8a96e, transparent: true, opacity: 0.15 }));
+  scene.add(lines);
+
+  let t = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    t += 0.0015;
+    particles.rotation.x = t * 0.05;
+    particles.rotation.y = t * 0.08;
+    lines.rotation.z = t * 0.03;
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+})();
+</script>
+</body>
+</html>
