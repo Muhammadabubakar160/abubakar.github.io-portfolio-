@@ -23,11 +23,17 @@
   body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 8888; opacity: 0.4; }
 
   /* WELCOME */
-  .welcome-overlay { position: fixed; inset: 0; background: rgba(8,8,8,0.5); backdrop-filter: blur(14px); display: flex; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.7s ease 1.8s; }
-  .welcome-overlay.fade-out { opacity: 0; pointer-events: none; }
+  .welcome-overlay { position: fixed; inset: 0; background: rgba(8,8,8,0.5); backdrop-filter: blur(14px); display: flex; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.7s ease 1.8s, backdrop-filter 0.7s ease 1.8s, background 0.7s ease 1.8s; }
+  .welcome-overlay.fade-out { opacity: 0; pointer-events: none; backdrop-filter: blur(0); background: rgba(8,8,8,0); }
+  .welcome-inner { display: flex; flex-direction: column; align-items: center; gap: 2rem; }
   .welcome-text { text-align: center; font-family: 'Bebas Neue', cursive; font-size: clamp(2rem,6vw,4rem); letter-spacing: 0.15em; color: var(--cream); animation: welcomeUp 2s ease-out forwards; }
   .welcome-text span { color: var(--gold); display: block; }
+  .welcome-loader { width: min(420px, 80vw); display: flex; flex-direction: column; gap: 0.9rem; align-items: center; }
+  .welcome-loader-track { width: 100%; height: 6px; border-radius: 999px; background: rgba(255,255,255,0.08); overflow: hidden; box-shadow: inset 0 0 18px rgba(0,0,0,0.15); }
+  .welcome-loader-fill { width: 0; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--gold), rgba(200,169,110,0.6)); animation: welcomeLoad 2.2s linear forwards; }
+  .welcome-loader-label { font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(240,232,216,0.7); }
   @keyframes welcomeUp { from { transform: translateY(40px); opacity: 0; } 50% { opacity: 1; } to { transform: translateY(-80px); opacity: 0; } }
+  @keyframes welcomeLoad { to { width: 100%; } }
 
   /* NAV */
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.5rem 4rem; display: flex; justify-content: space-between; align-items: center; }
@@ -58,6 +64,12 @@
   .hero-scroll span { font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-dim); }
   .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--gold-dim), transparent); animation: scrollPulse 2s infinite; }
 
+  .hero-avatar-wrap { position: relative; margin: 0 auto 2rem; width: min(320px, 58vw); aspect-ratio: 0.96; display: grid; place-items: center; pointer-events: auto; animation: floatAvatar 6s ease-in-out infinite; }
+  .hero-avatar-wrap::before { content: ''; position: absolute; inset: 0; border-radius: 54% 46% 52% 48% / 52% 55% 45% 48%; background: radial-gradient(circle at 35% 30%, rgba(200,169,110,0.18), transparent 45%), radial-gradient(circle at 65% 65%, rgba(200,169,110,0.08), transparent 35%); z-index: 1; }
+  .hero-avatar-ring { position: absolute; inset: -14px; border-radius: 56% 44% 54% 46% / 50% 55% 45% 50%; border: 1px solid rgba(200,169,110,0.25); box-shadow: 0 0 0 1px rgba(255,255,255,0.05); z-index: 0; }
+  .hero-avatar { position: relative; width: 100%; height: 100%; object-fit: cover; object-position: center center; border-radius: 54% 46% 52% 48% / 52% 55% 45% 48%; box-shadow: 0 28px 70px rgba(0,0,0,0.35); border: 2px solid rgba(255,255,255,0.08); background: var(--dark2); z-index: 2; }
+  @keyframes floatAvatar { 0%, 100% { transform: translateY(0) rotate(-0.5deg); } 50% { transform: translateY(-14px) rotate(0.8deg); } }
+
   /* REEL STRIP */
   .reel-strip { background: var(--dark2); padding: 2rem 0; overflow: hidden; border-top: 1px solid rgba(200,169,110,0.1); border-bottom: 1px solid rgba(200,169,110,0.1); }
   .reel-track { display: flex; gap: 3rem; animation: scrollLeft 20s linear infinite; white-space: nowrap; }
@@ -77,6 +89,9 @@
   .about-text h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem,5vw,4rem); font-weight: 300; line-height: 1.1; color: var(--cream); margin-bottom: 2rem; }
   .about-text h2 em { font-style: italic; color: var(--gold); }
   .about-text p { font-size: 0.8rem; line-height: 2; color: rgba(240,232,216,0.55); margin-bottom: 1.5rem; }
+  .about-role { display: grid; gap: 1rem; max-width: 720px; margin-top: 2rem; padding: 1.6rem 1.4rem; border: 1px solid rgba(200,169,110,0.18); background: rgba(255,255,255,0.03); border-radius: 18px; }
+  .about-role span { display: flex; justify-content: space-between; gap: 1rem; color: rgba(240,232,216,0.78); font-size: 0.85rem; line-height: 1.7; }
+  .about-role strong { color: var(--gold); text-transform: uppercase; letter-spacing: 0.14em; font-weight: 600; }
   .about-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; margin-top: 3rem; padding-top: 3rem; border-top: 1px solid rgba(200,169,110,0.15); }
   .stat-num { font-family: 'Bebas Neue', cursive; font-size: 2.5rem; color: var(--gold); line-height: 1; }
   .stat-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-top: 0.4rem; }
@@ -87,6 +102,49 @@
   .achievements-wrap > h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem,5vw,4rem); font-weight: 300; color: var(--cream); margin-bottom: 1rem; line-height: 1.2; }
   .achievements-wrap > h2 em { font-style: italic; color: var(--gold); }
   .achievements-wrap > .sub-intro { font-size: 0.8rem; line-height: 2; color: rgba(240,232,216,0.45); max-width: 600px; margin-bottom: 5rem; }
+  .achievements-wrap > .achievements-note {
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: rgba(240,232,216,0.85);
+    max-width: 720px;
+    margin-top: 2.5rem;
+    padding-left: 1.4rem;
+    border-left: 1px solid rgba(200,169,110,0.25);
+    font-style: italic;
+    position: relative;
+    text-decoration: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .achievements-wrap > .achievements-note.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .achievements-wrap > .achievements-note::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    top: 0.15rem;
+    color: var(--gold);
+    font-size: 0.85rem;
+    opacity: 0.95;
+  }
+  .achievements-wrap > .achievements-note::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.35rem;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(200,169,110,0), rgba(200,169,110,0.85), rgba(200,169,110,0));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.8s ease;
+  }
+  .achievements-wrap > .achievements-note.visible::after {
+    transform: scaleX(1);
+  }
 
   .achievements-list { list-style: none; }
   .ach-item {
@@ -124,11 +182,12 @@
     width: 100%; max-width: 860px;
     background: var(--dark2);
     border: 1px solid rgba(200,169,110,0.2);
-    display: grid; grid-template-columns: 1fr 1fr;
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     overflow: hidden;
     transform: translateY(40px) scale(0.96);
     transition: transform 0.4s ease;
     max-height: 90vh;
+    min-height: 0;
   }
   .ach-modal-backdrop.open .ach-modal { transform: translateY(0) scale(1); }
 
@@ -144,7 +203,10 @@
     position: relative; background: var(--dark); overflow: hidden;
     min-height: 320px;
   }
-  .modal-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .modal-canvas {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    background: var(--dark);
+  }
   .modal-icon-wrap {
     position: absolute; inset: 0; z-index: 2;
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2rem;
@@ -163,13 +225,53 @@
   @keyframes iconPulse { 0%,100% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.08); opacity: 1; } }
 
   .modal-content {
-    padding: 3rem 2.5rem; display: flex; flex-direction: column; justify-content: center;
-    overflow-y: auto; gap: 1.2rem;
+    padding: 3rem 2.5rem; display: flex; flex-direction: column; justify-content: flex-start;
+    overflow-y: auto; gap: 1.2rem; min-height: 0;
+    max-height: calc(90vh - 4rem);
   }
   .modal-tag { font-size: 0.55rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); }
   .modal-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.4rem,2.5vw,2rem); font-weight: 300; color: var(--cream); line-height: 1.2; }
   .modal-divider { width: 40px; height: 1px; background: rgba(200,169,110,0.4); }
   .modal-desc { font-size: 0.78rem; line-height: 2; color: rgba(240,232,216,0.6); }
+  .modal-media { margin-top: 1.5rem; display: grid; gap: 1rem; }
+  .modal-media iframe,
+  .modal-media img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid rgba(200,169,110,0.2);
+    background: #000;
+    display: block;
+    object-fit: cover;
+  }
+  .modal-media video {
+    width: 100%;
+    height: auto;
+    max-height: 70vh;
+    border: 1px solid rgba(200,169,110,0.2);
+    background: #000;
+    display: block;
+    object-fit: contain;
+  }
+  .modal-image-block { display: grid; gap: 0.8rem; }
+  .modal-image-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1rem;
+    border: 1px solid rgba(200,169,110,0.25);
+    color: var(--cream);
+    background: rgba(255,255,255,0.05);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.65rem;
+    transition: all 0.2s ease;
+  }
+  .modal-image-button:hover {
+    background: var(--gold);
+    color: var(--dark);
+    border-color: var(--gold);
+  }
   .modal-meta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.5rem; }
   .modal-pill {
     font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
@@ -262,19 +364,18 @@
     .cursor, .cursor-ring { display: none; }
     body { cursor: auto; }
   }
-  .ach-reel {
-  display: inline-block;
-  margin-top: 0.75rem;
-  color: var(--gold);
-  font-size: 0.75rem;
-  text-decoration: underline;
-}
 </style>
 </head>
 <body>
 
 <div class="welcome-overlay" id="welcomeOverlay">
-  <div class="welcome-text">Welcome to<br><span>Abubakar's Portfolio</span></div>
+  <div class="welcome-inner">
+    <div class="welcome-text">Welcome to<br><span>Abubakar's Portfolio</span></div>
+    <div class="welcome-loader">
+      <div class="welcome-loader-track"><div class="welcome-loader-fill"></div></div>
+      <div class="welcome-loader-label" id="welcomeProgress">Loading portfolio… 0%</div>
+    </div>
+  </div>
 </div>
 
 <div class="cursor" id="cursor"></div>
@@ -295,6 +396,7 @@
       <div class="modal-title" id="modalTitle">Title</div>
       <div class="modal-divider"></div>
       <div class="modal-desc" id="modalDesc">Description</div>
+      <div class="modal-media" id="modalMedia"></div>
       <div class="modal-meta" id="modalMeta"></div>
     </div>
     <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
@@ -328,6 +430,10 @@
   <canvas id="hero-canvas"></canvas>
   <div class="hero-content">
     <p class="hero-eyebrow">Filmmaker &amp; Cinematographer</p>
+    <div class="hero-avatar-wrap reveal reveal-delay-1">
+      <div class="hero-avatar-ring"></div>
+      <img class="hero-avatar" src="ab.jpg" alt="Muhammad Abubakar">
+    </div>
     <h1 class="hero-name">Muhammad<br><span>Abubakar</span></h1>
     <p class="hero-sub">Crafting stories through light &amp; motion</p>
   </div>
@@ -356,7 +462,11 @@
     <p class="section-label reveal">About Me</p>
     <h2 class="reveal">Vision through<br>the <em>lens</em> of<br>emotion</h2>
     <p class="reveal reveal-delay-1">Muhammad Abubakar is a filmmaker and visual storyteller who believes every frame is a painting and every cut a heartbeat. With a deep passion for cinematic language, he transforms raw moments into enduring narratives.</p>
-    <p class="reveal reveal-delay-2">From documentary-style portraits to large-scale event productions, his work spans diverse genres — always anchored in authentic human experience. Since 2025, he serves as Director of the Videography Group, leading and mentoring students to produce high-quality visual content.</p>
+    <p class="reveal reveal-delay-2">From documentary-style portraits to large-scale event productions, his work spans diverse genres — always anchored in authentic human experience. Since 2025, he has led the Videography Group as Director, mentoring students and delivering high-quality visual content with a cinematic edge.</p>
+    <div class="about-role reveal reveal-delay-2">
+      <span><strong>Current role:</strong> Director, Videography</span>
+      <span><strong>Applying for:</strong> President / Vice President</span>
+    </div>
     <div class="about-stats reveal reveal-delay-3">
       <div><div class="stat-num">3+</div><div class="stat-label">Years Active</div></div>
       <div><div class="stat-num">2×</div><div class="stat-label">Best Videographer</div></div>
@@ -374,6 +484,7 @@
     <ul class="achievements-list" id="achievementsList">
       <!-- injected by JS -->
     </ul>
+    <p class="achievements-note reveal reveal-delay-2">These highlights are only a glimpse — I’ve also delivered bespoke cinematic coverage, event narratives, and brand storytelling across every project.</p>
   </div>
 </section>
 
@@ -425,6 +536,8 @@ const achievements = [
   {
     num: '01', icon: '🎖️', year: '2023',
     tag: 'Certificate · Coverage',
+    img: 'appreciation.jpeg',
+    alt: 'Sports Week 2023 certificate',
     title: 'Sports Week 2023',
     desc: 'Official videography coverage and certified contribution to Sports Week 2023. Captured the raw energy, competitive spirit, and athletic excellence of the event through dynamic camera work and precision editing.',
     pills: ['Certificate', 'Event Coverage', '2023']
@@ -434,20 +547,22 @@ const achievements = [
     tag: 'Event Coverage',
     title: 'JARRAH 2024 by QDS',
     desc: 'Full cinematic coverage for JARRAH 2024 organised by QDS — one of the flagship institutional events of the year. Delivered a visually compelling documentation that captured every highlight and behind-the-scenes moment.',
-    pills: ['Coverage', 'QDS', '2024'] ,
-    reel: 'https://www.instagram.com/reel/C6KArjXKEfz/?igsh=eDdmbHI5bG1qa2Ns'
+    pills: ['Coverage', 'QDS', '2024']
   },
   {
     num: '03', icon: '🏅', year: 'BTL Season 1',
     tag: 'Award',
     title: 'BTL Season 1 — Best Ambassador Award',
-    desc: 'Awarded Best Ambassador during BTL Season 1 for outstanding dedication, creative representation, and significant contribution to the visual identity of the event. Recognised for going above and beyond in every frame.',
+    img: 'best amb.jpg',
+    alt: 'My award shield',
+    desc: 'Awarded Best Ambassador during BTL Season 1 for outstanding dedication, creative representation, and significant contribution to the visual identity of the event. Got the most regristations in BTL season 1 under my code.',
     pills: ['Award', 'BTL', 'Best Ambassador']
   },
   {
     num: '04', icon: '📽️', year: '2024',
     tag: 'Event Coverage',
     title: 'Elance Phantoms Coverage',
+    video : 'elance phantom.mp4',
     desc: 'Produced compelling videography coverage for Elance Phantoms — a high-energy competition event. The coverage captured the competitive intensity, crowd atmosphere, and defining moments with a cinematic eye.',
     pills: ['Coverage', 'Elance', '2024']
   },
@@ -455,6 +570,7 @@ const achievements = [
     num: '05', icon: '🤝', year: '2024',
     tag: 'Coverage · Collaboration',
     title: 'IRTIQA by UACS × UMC',
+    video : 'irtiqa.mp4',
     desc: 'Collaborative official videography for IRTIQA by UACS × UMC. A joint institutional production that required cross-team coordination and delivered a polished, broadcast-quality event film.',
     pills: ['Collaboration', 'UACS', 'UMC', '2024']
   },
@@ -462,6 +578,8 @@ const achievements = [
     num: '06', icon: '🏆', year: '2023–24 & 2024–25',
     tag: 'Award · Back to Back',
     title: '2× Best Videographer of the Year',
+    imgs: ['vid1.jpg', 'vid2.jpg'],
+    alt: 'Best videographer moments',
     desc: 'Awarded Best Videographer of the Year for two consecutive years — 2023–2024 and 2024–2025. A testament to sustained creative excellence, technical mastery, and impactful visual storytelling across every project.',
     pills: ['Award', '2× Winner', '2023–24', '2024–25']
   },
@@ -469,21 +587,25 @@ const achievements = [
     num: '07', icon: '🎞️', year: 'BTL Season 2',
     tag: 'Reel Production',
     title: 'BTL Season 2 — Official Reel',
-    desc: 'Produced the official highlight reel for BTL Season 2. Crafted a high-energy, fast-cut cinematic reel that encapsulated the spirit, drama, and culture of the entire event in under two minutes.',
+    img: 'btl s2 reel production.jpg',
+    alt: 'My portrait',
+    desc: 'Produced the official highlight reel for BTL Season 2. Created reels that were in trending at that time and helped us to get registrations. You can watch all reels on instagram handle of UMC.',
     pills: ['Production', 'BTL S2', 'Reel']
   },
   {
     num: '08', icon: '🎥', year: '2025',
     tag: 'Direction · Production',
+    video: 'https://github.com/Muhammadabubakar160/abubakar.github.io-portfolio-/releases/download/v1.0/convocation.day.1.mp4',
     title: '2025 Cabinet Intro Reels',
-    desc: 'Directed and produced the official 2025 Cabinet introduction reels — polished cinematic portrait films introducing each new leadership member to the wider community with a distinct visual style and narrative voice.',
+    desc: 'Directed and produced the official 2025 Cabinet introduction reels — This one you seeing here, is the most viewed reel on UMC’s Instagram.',
     pills: ['Direction', 'Production', 'Cabinet', '2025']
   },
   {
     num: '09', icon: '✨', year: '2025',
     tag: 'Reel Production',
     title: '2025 Induction Reel',
-    desc: 'Produced the 2025 Induction Reel — a cinematic welcome film for the incoming cohort. Set the emotional and creative tone for their journey ahead, blending music, motion, and storytelling seamlessly.',
+    video: 'umc final final.mp4',
+    desc: 'Produced the 2025 Induction Reel — a cinematic film for the incoming cohort. Set the emotional and creative tone for their journey ahead, blending music, motion, and storytelling seamlessly.',
     pills: ['Production', 'Induction', '2025']
   },
   {
@@ -491,13 +613,24 @@ const achievements = [
     tag: 'Coverage · Production',
     title: 'Convocation Day 1 — 2025',
     desc: "Official videography coverage and full reel production for Convocation Day 1 (2025). Immortalised one of the most significant milestones in students’ academic lives with cinematic precision and emotional depth.",
+    video: 'convocation day 1.mp4',
     pills: ['Coverage', 'Production', 'Convocation', '2025']
   },
   {
-    num: '11', icon: '🎬', year: '2025 – Present',
+    num: '11', icon: '🎓', year: '2025',
+    tag: 'Coverage · Production',
+    title: 'PEFAA — 2025',
+    img: 'pefaa certificate.jpeg',
+    alt: 'PEFAA 2025',
+    video: 'pefaa .mp4',
+    desc: "Official videography coverage and full reel production for PEFAA (2025).",
+    pills: ['Coverage', 'Production', 'PEFAA', '2025']
+  },
+  {
+    num: '12', icon: '🎬', year: '2025 – Present',
     tag: 'Leadership · Direction',
     title: 'Director, Videography Group',
-    desc: 'Since 2025, serving as Director for the Videography Group — leading, training, and mentoring the next generation of filmmakers. Overseeing all productions from concept to delivery, building a culture of creative excellence and high standards.',
+    desc: 'Since 2025, serving as Director for the Videography Group — leading, training, and mentoring the next generation of videographers. Overseeing all productions from concept to delivery, building creative excellence and high standards.',
     pills: ['Leadership', 'Director', 'Mentoring', '2025–Present']
   }
 ];
@@ -508,12 +641,11 @@ achievements.forEach((a, i) => {
   const li = document.createElement('li');
   li.className = 'ach-item reveal' + (i % 3 === 1 ? ' reveal-delay-1' : i % 3 === 2 ? ' reveal-delay-2' : '');
   li.dataset.idx = i;
-li.innerHTML = `
+  li.innerHTML = `
     <span class="ach-num">${a.num}</span>
     <div class="ach-body">
       <span class="ach-title">${a.title}</span>
       <span class="ach-tag">${a.tag}</span>
-      ${a.reel ? `<a href="${a.reel}" target="_blank" rel="noopener noreferrer" class="ach-reel">Watch Reel</a>` : ''}
     </div>
     <span class="ach-arrow">→</span>`;
   li.addEventListener('click', () => openModal(i));
@@ -596,17 +728,58 @@ function openModal(idx) {
   document.getElementById('modalTag').textContent = a.tag;
   document.getElementById('modalTitle').textContent = a.title;
   document.getElementById('modalDesc').textContent = a.desc;
+
+  const modalMedia = document.getElementById('modalMedia');
+  const mediaFragments = [];
+  if (a.video) {
+    const videoSrc = encodeURI(a.video.replace(/\\/g, '/'));
+    if (videoSrc.endsWith('.mp4')) {
+      mediaFragments.push(`
+        <video controls>
+          <source src="${videoSrc}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>`);
+    } else {
+      mediaFragments.push(`
+        <iframe
+          src="${videoSrc}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>`);
+    }
+  }
+  if (a.imgs || a.img) {
+    const images = a.imgs || [a.img];
+    mediaFragments.push(images.map((item, index) => {
+      const source = typeof item === 'string' ? item : item.src;
+      const altText = typeof item === 'string' ? a.alt || `${a.title} image ${index + 1}` : item.alt || a.alt || a.title;
+      const imgSrc = encodeURI(source.replace(/\\/g, '/'));
+      return `
+        <div class="modal-image-block">
+          <img src="${imgSrc}" alt="${altText}">
+          <a class="modal-image-button" href="${imgSrc}" target="_blank" rel="noopener noreferrer">View larger</a>
+        </div>`;
+    }).join(''));
+  }
+  modalMedia.innerHTML = mediaFragments.join('');
+
   const meta = document.getElementById('modalMeta');
   meta.innerHTML = a.pills.map(p => `<span class="modal-pill">${p}</span>`).join('');
   backdrop.classList.add('open');
   document.body.style.overflow = 'hidden';
   if (stopModalScene) stopModalScene();
-  setTimeout(() => { stopModalScene = buildModalScene(palettes[idx % palettes.length]); }, 50);
+  stopModalScene = buildModalScene(palettes[idx % palettes.length]);
 }
 
 function closeModal() {
   backdrop.classList.remove('open');
   document.body.style.overflow = '';
+  const modalVideo = document.querySelector('.modal-media video');
+  if (modalVideo) {
+    modalVideo.pause();
+    modalVideo.currentTime = 0;
+  }
   if (stopModalScene) { stopModalScene(); stopModalScene = null; }
 }
 
@@ -629,8 +802,13 @@ document.addEventListener('mousemove', e => { cx = e.clientX; cy = e.clientY; cu
 (function animateCursor() { rx += (cx - rx) * 0.12; ry += (cy - ry) * 0.12; cursorRing.style.left = rx + 'px'; cursorRing.style.top = ry + 'px'; requestAnimationFrame(animateCursor); })();
 
 // ── WELCOME ───────────────────────────────────────────────────────
-const wo = document.getElementById('welcomeOverlay');
-setTimeout(() => { wo.classList.add('fade-out'); setTimeout(() => wo.style.display = 'none', 700); }, 2200);
+const wo = document.getElementById('welcomeOverlay');const welcomeProgress = document.getElementById('welcomeProgress');
+let progressValue = 0;
+const loaderInterval = setInterval(() => {
+  progressValue = Math.min(progressValue + 4, 100);
+  if (welcomeProgress) welcomeProgress.textContent = `Loading portfolio… ${progressValue}%`;
+  if (progressValue >= 100) clearInterval(loaderInterval);
+}, 88);setTimeout(() => { wo.classList.add('fade-out'); setTimeout(() => wo.style.display = 'none', 700); }, 2200);
 
 // ── HOVER CURSOR EFFECTS ──────────────────────────────────────────
 document.querySelectorAll('a, button, .ach-item').forEach(el => {
